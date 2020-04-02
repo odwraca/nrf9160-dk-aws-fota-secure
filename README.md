@@ -1,0 +1,1 @@
+# nrf9160-dk-aws-fota-secure
