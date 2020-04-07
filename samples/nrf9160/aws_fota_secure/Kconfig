@@ -8,7 +8,7 @@ menu "MQTT FOTA Sample Settings"
 
 config APP_VERSION
 	string "Application version"
-	default "v1.0.3g.https"
+	default "v1.0.3j.https"
 
 config USE_NRF_CLOUD
 	bool "Use nRF Cloud"

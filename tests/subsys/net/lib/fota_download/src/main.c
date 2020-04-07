@@ -23,7 +23,6 @@ char buf[1024];
 #define S0 "s0"
 #define S1 "s1"
 #define NO_SPACE "s0s1"
-#define NO_TLS -1
 
 /* Stubs and mocks */
 bool dfu_ctx_mcuboot_set_b1_file__s0_active;
@@ -119,7 +118,7 @@ static void init(void)
 	err = fota_download_init(client_callback);
 	zassert_equal(err, 0, NULL);
 }
-
+#define NO_TLS -1
 static void test_fota_download_start(void)
 {
 	int err;

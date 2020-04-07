@@ -502,6 +502,7 @@ static void at_configure(void)
 	__ASSERT(err == 0, "Could not provision root CA to %d", TLS_SEC_TAG);
 #endif
 
+
 static void aws_fota_cb_handler(struct aws_fota_event *fota_evt)
 {
 	int err;
@@ -593,6 +594,14 @@ void main(void)
 #if defined(CONFIG_PROVISION_CERTIFICATES)
 	provision_certificates();
 #endif /* CONFIG_PROVISION_CERTIFICATES */
+
+int sec_tag;
+#ifndef CONFIG_USE_HTTPS
+	sec_tag = 42;
+#else
+	sec_tag = TLS_SEC_TAG;
+
+#endif
 	printk("LTE Link Connecting ...\n");
 	err = lte_lc_init_and_connect();
 	__ASSERT(err == 0, "LTE link could not be established.");

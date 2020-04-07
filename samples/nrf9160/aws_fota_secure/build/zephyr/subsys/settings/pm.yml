@@ -1,3 +1,0 @@
-settings_storage:
-  placement: {after: [mcuboot_storage, app]}
-  size: 0x2000
