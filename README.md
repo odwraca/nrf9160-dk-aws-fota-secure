@@ -1,5 +1,5 @@
 # AWS IoT Jobs - HTTPS Example Build
-This is a clone of the https://github.com/NordicPlayground/fw-nrfconnect-nrf to attempt an AWS IoT Job using HTTPS.
+This is a clone of the https://github.com/NordicPlayground/fw-nrfconnect-nrf to complete an AWS IoT Job using HTTPS.
 
 # nrf9160-dk-aws-fota-secure
 
@@ -19,49 +19,45 @@ Disclaimer
 nRF Connect SDK supports development with nRF9160 Cellular IoT devices. It is also your starting point for developing Bluetooth Low Energy applications on the nRF5340, though support for nRF5340 is still experimental. It contains references and code for Bluetooth Low Energy devices in the nRF52 Series, though development on these devices is not currently supported with the nRF Connect SDK.
 
 # Perform FOTA Updates on a Nordic nrf9160-dk with AWS IoT Jobs
+*About this Guide*
+This guide is intended to provide an example of how to use AWS IoT Jobs to update a Nordic nrf9160-dk with ZephyrOS over HTTPS. 
 
-## About this Guide
-This guide is intended to provide an example of how to use AWS IoT Jobs to update a Nordic nrf9160-dk with ZephyrOS. 
+# Overview
 
-## Overview
+# Before You Begin / Considerations
+This example is meant to be a guide and starting point for you launch your own FOTA updates with. AWS IoT Jobs on the nrf9160-dk. You will want to adjust. your security and job parameters to match your needs.
 
-## Before You Begin / Considerations
-This section should include guidance about what users should consider and know prior to following the instructions included in the guide. For this section, you can use either the Before You Begin or the Considerations title. Choose the text that most accurately represents the information you’re including in the section and delete the other text.
+This is a clone of the https://github.com/NordicPlayground/fw-nrfconnect-nrf to complete an AWS IoT Job using HTTPS.
 
-## Cost
-(Optional)
-If the use case presented in the guide includes any cost considerations, include them in this section.
+# Cost
+You will be responsible for the cost of all the AWS services used in this example which should be less than $5 USD as of current writing. Most nrf9160-dk kits come with an eSIM from iBASIS, if you do not have one,  please locate a suitable eSIM for your testing and have at least 500MB of data available for the purposes of this guide.
 
-## Architecture Overview
-(Optional, includes overview diagram)
-If the use case presented in this guide includes architectural information, include this section. In addition to an explanation of the architecture for this use case, you can include an architectural overview diagram.
+# Procedural Sections
+To complete this guide, you will need to install the latest version of nRF Connect for Desktop (https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Connect-for-desktop).
 
-## Procedural Sections\
-Include a separate section for each procedural block or AWS service configuration for the use case presented in this guide. Procedural sections should include how-to instructions in numbered lists, and can include diagrams, images, and tables with information to support.
+Once you have the the nRF Connect for Desktop installed, you will follow the nRF9160: AWS FOTA (https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/samples/nrf9160/aws_fota/README.html) example that is provided by Nordic. It would be good practice to run through this example in its entirety before moving on to the next step, as we will be using this as a base and making changes to the sample application so that we can perform this FOTA update securely over https vs 
 
-## Walkthrough
+# Walkthrough
 (Optional)
 A walkthrough section is a procedural section for a specific implementation of the use case presented in the guide. It should include how-to-instructions and any supporting diagrams, images, or tables for the specific implementation described in the walkthrough.
 
-## Security
-This section should include any security considerations or requirements for the use case presented in this guide.
+# Security
+This guide is intended for demo purposes only and considerations should be made for the security policies to be more restrictive instead of what is created here. Always start with a least privileged model and only allow trusted access based upon your own security policies.  
 
-## Source Code
+# Source Code
 (Optional)
 If the implementation of the use case you’re presenting in this guide requires source code, include it in this section.
 
-## Conclusion
-In the conclusion section, reinforce the main points of your guide. You can restate some points from the overview, but make sure to rephrase them and try not to be repetitive.
+# Conclusion
+Now that you have completed this walkthrough, you should have the ability to push AWS IoT jobs from your AWS IoT Console and perform secure updates over HTTPS to your nrf9160-dk. You can use this knowledge as a baseline to further integrate your nrf9160 based IoT devices into other AWS IoT services and manage them securely in the field. 
 
-## Contributors
-Include all the people who contributed to the guide. Make sure to include their titles and department with their full names.
+# Contributors
+Aaron Curtis - Sr Solutions Architect 
+Paul Vincent - Sr Solutions Architect 
 
-## Additional Resources
-(Optional)
-If there are other documents, wikis, or pages that readers can use for more information, include links to them in this section.
+# Document Revisions
+December 2020 - Initial Publication
 
-## Document Revisions
-The list of revisions to the document. Include the month and year with a short description of the revision.
 
 ## Notes
 (Optional)
