@@ -1,24 +1,23 @@
-Perform Secure FOTA Updates on a Nordic nrf9160-dk with AWS IoT Jobs
+## Perform Secure FOTA Updates on a Nordic nrf9160-dk with AWS IoT Jobs
 
 *About this Guide*
 This guide is intended to provide an example of how to use AWS IoT Jobs to update a Nordic nrf9160-dk with ZephyrOS over HTTPS. By default, the examples provided by Nordic only give you the option to perform AWS FOTA over HTTP, so we built this walkthrough to provide you with a more secure option of completing your job downloads over S3 via HTTPS. 
 
-*Overview*
-
-*Before You Begin / Considerations*
+## Overview
+### Before You Begin / Considerations*
 This example is meant to be a guide and starting point for you launch your own FOTA updates with AWS IoT Jobs on the nrf9160-dk. You will want to adjust your security and job parameters to match your needs as the ones used here are 
 
 This is a clone of the https://github.com/nrfconnect/sdk-nrf to complete an AWS IoT Job using HTTPS. For this example we are using version v1.2.0, please ensure you are using that codebase for the rest of this walkthrough.
 
-*Cost*
+### Cost
 You will be responsible for the cost of all the AWS services used in this example which will be less than $5 USD as of current writing. Most nrf9160-dk kits come with an eSIM from iBASIS, if you do not have one,  please locate a suitable eSIM for your testing and have at least 500MB of data available for the purposes of this tutorial.
 
-*Procedural Sections*
+### Procedural Sections
 To complete this guide, you will need to install the latest version of nRF Connect for Desktop (https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Connect-for-desktop).
 
 Once you have the the nRF Connect for Desktop installed, you will need to follow theGetting Started (http://developer.nordicsemi.com/nRF_Connect_SDK/doc/1.4.0/nrf/getting_started.html) guide and go through the process specific to your guest operating system. You may proceed with the next steps to being modifying your custom application to complete AWS IoT Jobs over HTTPS once you have setup your working environment and cloned the v1.4.0 from https://github.com/nrfconnect/sdk-nrf. You will also need to install all required additional python dependencies (http://developer.nordicsemi.com/nRF_Connect_SDK/doc/1.4.0/nrf/gs_installing.html#installing-additional-python-dependencies).
 
-*Walkthrough*
+### Walkthrough
 After you have the repository cloned and have completed the Getting Started guide provided by Nordic, you will register your nrf9160-dk with AWS IoT services. Follow the current AWS IoT Guide (http://developer.nordicsemi.com/nRF_Connect_SDK/doc/1.4.0/nrf/include/net/aws_iot.html) provided by Nordic so that you can quickly get your nrf9160-dk modem updated and connect to AWS IoT services. Once you have completed the walkthrough, you should now have your device security connected with the certificates you created during the creation process. 
 
 First, you will need to make a copy of the application aws_fota located in nrf/samples/nrf9160/ and name the copy aws_fota_secure. Now you will proceed with following guide provided by Nordic AWS FOTA (http://developer.nordicsemi.com/nRF_Connect_SDK/doc/1.4.0/nrf/samples/nrf9160/aws_fota/README.html#nrf9160-aws-fota), however all the changes that you make will be in the application aws_fota_secure. Before proceeding to the next step, you should flash your application to the device and confirm you see the following output when your device starts up by using the terminal in nRF Connect - LTE Link Monitor, where ClientID is the name of your IoT device in AWS IoT.
@@ -27,7 +26,7 @@ First, you will need to make a copy of the application aws_fota located in nrf/s
     client_id: CLIENTID [mqtt_evt_handler:182] 
     MQTT client connected!
 
-*Test the functionality of AWS IoT Jobs over HTTP before changing to HTTPS*
+### Test the functionality of AWS IoT Jobs over HTTP before changing to HTTPS
 Update the APP_VERSION to a new version in your KConfig file for your aws_fota_secure application. Once done, perform a build using either the Segger utility or west from command line. Once you have built your application, you will retrieve the “aws_fota_secure/build/zephyr/app_update.bin“ file from the new build and you will upload it to a public S3 bucket along with a complete AWS IoT Job document, for ease of testing, I am providing a sample job document below, you will need to update the BUCKETNAME next to ”host“ to your public bucket name. 
 
 
@@ -43,7 +42,7 @@ Update the APP_VERSION to a new version in your KConfig file for your aws_fota_s
     }
 
 
-*Create your first AWS IoT Job*
+### Create your first AWS IoT Job
 Login to your AWS console and navigate to AWS IoT, then click on Jobs on the left hand menu under “Manage”. You will now have a blue button on the right hand side of your screen named “Create” which you will click, then select Create a Customer Job. Pick a unique job id type such as the fwversion you will be pushing.
 
 Important: Before creating your job, open the nRF Connect - LTE Link Monitor and be ready to watch the terminal output. 
@@ -75,7 +74,7 @@ To confirm this was done over HTTP instead of HTTPS, you can enable file logging
     REST.GET.OBJECT app_update.bin "GET /app_update.bin HTTP/1.1" 206 - 2048 187904 11 11 "-" "-" - p8yY7bV/7ZblOvFDgTomeRkCOvfEm97mcI2cHYKYr//yUY2YT+teixY48hmydBSqN6uQJ47jqjA= - - - 
 
 
-*Changing to an HTTPS S3 Download*
+### Changing to an HTTPS S3 Download
 First, we are going to make a few changes to the file nrf/subsys/net/lib/download_client/src/download_client.c 
 
 At line 75, you will find a section for the “socket_sectag_set” where you will need to make the following changes, please make sure that you update the BUCKETNAME below (line 88) and change verify = REQUIRED to OPTIONAL. The full section of code is listed here so you can compare or replace:
@@ -136,10 +135,7 @@ Once you have submitted your new IoT job, you can review your S3 logs or Cloudfr
     2020-12-10    18:35:31    PHX50-C2    1231    XXX.XXX.XXX.XXX    GET    BUCKETNAME.s3.amazonaws.com   /app_update.bin    206    -    -    -    -    Hit    l0uDfj_O6elh8vGlPIIDImeKyOOAT1sdPgW9KzOJP3KLTxg98LSPkA==    d3zzcki9218zp.cloudfront.net    https    127    0.002    -    TLSv1.2    ECDHE-RSA-AES128-SHA256    Hit    HTTP/1.1    -    -    39075    0.001    Hit    application/macbinary    704    176128    176831
 
 
-*Security*
-This guide is intended for demo purposes only and considerations should be made for the security policies to be more restrictive instead of what is created here. Always start with a least privileged model and only allow trusted access based upon your own security policies.  
-
-*Source Code*
+### Source Code
 The source code for this project is available from nrfconnect via GitHub: https://github.com/nrfconnect/sdk-nrf and was modified in the example above for the purposes of this walkthrough. 
 
 Official Nordic documentation at:
@@ -148,12 +144,15 @@ Official Nordic documentation at:
 * All versions: http://developer.nordicsemi.com/nRF_Connect_SDK/doc/
 
 
-*Conclusion*
+### Conclusion
 Now that you have completed this walkthrough, you should have the ability to push AWS IoT jobs from your AWS IoT Console and perform secure updates over HTTPS to your nrf9160-dk. You can use this knowledge as a baseline to further integrate your nrf9160 based IoT devices into other AWS IoT services and manage them securely in the field. 
 
-*Contributors*
-Aaron Curtis - Sr Solutions Architect 
-Paul Vincent - Sr Solutions Architect 
+### Security
 
-*Document Revisions*
-December 2020 - Initial Publication
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+This guide is intended for demo purposes only and considerations should be made for the security policies to be more restrictive instead of what is created here. Always start with a least privileged model and only allow trusted access based upon your own security policies.  
+
+### License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
